@@ -73,6 +73,7 @@ public class CustomExceptionHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ResponseEntity<ErrorMessageResponseDTO> handleAllUncaughtException(
       Exception ex, HttpServletRequest request) {
+    log.error("Unhandled exception occurred: ", ex);
     ErrorMessageResponseDTO messageError = new ErrorMessageResponseDTO(
         MessageCode.MESSAGE_ERROR_SYSTEM_ERROR.getCode(),
         messageUtil.getMessage(MessageCode.MESSAGE_ERROR_SYSTEM_ERROR));

@@ -13,40 +13,39 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import org.springframework.data.annotation.CreatedDate;
 
 @Entity
-@Table(name = "job")
+@Table(name = "job_execution_log")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Job extends BaseEntity {
+public class JobExecutionLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_job_id", nullable = false)
-    private TypeJob typeJob;
-
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private Map<String, Object> payload;
+    @JoinColumn(name = "job_id", nullable = false)
+    private Job job;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private JobStatus status;
 
-    @Column(name = "next_run_at")
-    private LocalDateTime nextRunAt;
+    @Column(name = "error_message", columnDefinition = "text")
+    private String errorMessage;
+
+    @CreatedDate
+    @Column(name = "executed_at", updatable = false)
+    @Builder.Default
+    private LocalDateTime executedAt = LocalDateTime.now();
 }
