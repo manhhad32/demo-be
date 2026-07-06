@@ -53,7 +53,7 @@ The system employs a resilient two-tier retry mechanism:
 3. **Failure Handling**:
    - Utilize a **Dead Letter Queue (DLQ)**. If a job fails multiple retries, the message is routed to the DLQ instead of lingering in the active queue or constantly updating the database. A separate operational process handles DLQ triage.
 4. **Scaling Approach**:
-   - Separate the API Web Servers from the Background Workers. Scale the worker pods dynamically based on the queue depth (e.g., using KEDA in Kubernetes).
+   - Separate the API Web Servers from the Background Workers. Scale the worker pods dynamically based on the queue depth (e.g., using KEDA - Kubernetes Event-driven Autoscaling).
 5. **Operational Considerations**:
    - Implement Distributed Tracing (e.g., OpenTelemetry, Jaeger) to track a job's lifecycle across API and worker instances. Implement robust alerting (Prometheus/Grafana) for queue lag (when jobs are being published faster than processed).
 
