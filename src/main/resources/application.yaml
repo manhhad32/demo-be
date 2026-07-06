@@ -1,0 +1,29 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: ${SERVER_CONTEXT_PATH:}
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: demo
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_DBNAME:job}}
+    username: ${DATABASE_USERNAME:judge}
+    password: ${DATABASE_PASSWORD:judge}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: JobDemoAppHikariPool
+
+  #  initalization-mode: never
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false
+  liquibase:
+    change-log: classpath:/db/changelog-master.xml
+    enabled: true
