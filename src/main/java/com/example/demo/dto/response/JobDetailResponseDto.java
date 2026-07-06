@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobDetailResponseDto {
-    private Integer id;
-    private String type;
-    private Map<String, Object> payload;
-    private String status;
-    private Integer retryCount;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+
+  private Integer id;
+  private String type;
+  private Map<String, Object> payload;
+  private String status;
+  private Integer retryCount;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 }

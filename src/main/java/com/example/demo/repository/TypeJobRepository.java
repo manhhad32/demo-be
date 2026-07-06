@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TypeJobRepository extends JpaRepository<TypeJob, Long> {
-    TypeJob findByType(String type);
+
+  TypeJob findByType(String type);
 }

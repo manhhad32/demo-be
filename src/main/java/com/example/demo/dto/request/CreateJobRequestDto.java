@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 public class CreateJobRequestDto {
-    private String type;
-    private Map<String, Object> payload;
+
+  private String type;
+  private Map<String, Object> payload;
 
 
 }

@@ -1,12 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.request.CreateJobRequestDto;
-import com.example.demo.dto.response.JobDetailResponseDto;
 import com.example.demo.dto.response.JobDetailPage;
+import com.example.demo.dto.response.JobDetailResponseDto;
 import com.example.demo.dto.response.JobResponseDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface JobService {
 

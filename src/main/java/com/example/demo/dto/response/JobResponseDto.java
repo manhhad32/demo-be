@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobResponseDto {
+
   private int id;
-  private  String status;
+  private String status;
 
 }

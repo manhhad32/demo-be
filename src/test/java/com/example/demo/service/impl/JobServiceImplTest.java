@@ -1,15 +1,23 @@
 package com.example.demo.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.example.demo.constant.JobStatus;
 import com.example.demo.constant.MessageCode;
 import com.example.demo.dto.request.CreateJobRequestDto;
-import com.example.demo.dto.response.JobDetailResponseDto;
 import com.example.demo.dto.response.JobDetailPage;
+import com.example.demo.dto.response.JobDetailResponseDto;
 import com.example.demo.dto.response.JobResponseDto;
 import com.example.demo.entity.Job;
 import com.example.demo.entity.TypeJob;
@@ -148,12 +156,8 @@ class JobServiceImplTest {
     List<JobDetailResponseDto> processed = jobService.processPendingJobs();
 
     assertTrue(processed.isEmpty());
-    
+
     // Verify execution service was NEVER called, preventing duplicate processing
-    try {
-      verify(jobExecutionService, never()).process(anyInt());
-    } catch (Exception e) {
-      fail("Should not throw exception during verification");
-    }
+    verify(jobExecutionService, never()).process(anyInt());
   }
 }

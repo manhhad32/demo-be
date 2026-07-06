@@ -1,9 +1,15 @@
 package com.example.demo.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.example.demo.constant.JobStatus;
 import com.example.demo.entity.Job;
@@ -32,7 +38,7 @@ class JobExecutionServiceImplTest {
   private JobExecutionServiceImpl jobExecutionService;
 
   @Test
-  void process_Success() throws Exception {
+  void process_Success() {
     Job job = new Job();
     job.setId(1);
     TypeJob typeJob = new TypeJob();
@@ -72,12 +78,12 @@ class JobExecutionServiceImplTest {
     // Simulate 1 previous failure
     when(logRepository.countByJobIdAndStatus(1, JobStatus.FAILED)).thenReturn(1L);
 
-    Exception ex = new RuntimeException("Test Exception");
+    RuntimeException ex = new RuntimeException("Test Exception");
     jobExecutionService.recover(ex, 1);
 
     assertEquals(JobStatus.PENDING, job.getStatus());
     assertNotNull(job.getNextRunAt());
-    
+
     verify(jobRepository, times(1)).save(job);
     verify(logRepository, times(1)).save(argThat(log -> log.getStatus() == JobStatus.FAILED));
   }
@@ -91,12 +97,12 @@ class JobExecutionServiceImplTest {
     // Simulate 2 previous failures + this current one = 3
     when(logRepository.countByJobIdAndStatus(1, JobStatus.FAILED)).thenReturn(2L);
 
-    Exception ex = new RuntimeException("Test Exception");
+    RuntimeException ex = new RuntimeException("Test Exception");
     jobExecutionService.recover(ex, 1);
 
     assertEquals(JobStatus.FAILED, job.getStatus());
     assertNull(job.getNextRunAt());
-    
+
     verify(jobRepository, times(1)).save(job);
     verify(logRepository, times(1)).save(argThat(log -> log.getStatus() == JobStatus.FAILED));
   }
