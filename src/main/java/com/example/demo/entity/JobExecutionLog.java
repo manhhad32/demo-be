@@ -18,7 +18,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Table(name = "job_execution_log")
@@ -29,23 +28,21 @@ import org.springframework.data.annotation.CreatedDate;
 @Builder
 public class JobExecutionLog {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id", nullable = false)
-    private Job job;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "job_id", nullable = false)
+  private Job job;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private JobStatus status;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, length = 20)
+  private JobStatus status;
 
-    @Column(name = "error_message", columnDefinition = "text")
-    private String errorMessage;
+  @Column(name = "error_message", columnDefinition = "text")
+  private String errorMessage;
 
-    @CreatedDate
-    @Column(name = "executed_at", updatable = false)
-    @Builder.Default
-    private LocalDateTime executedAt = LocalDateTime.now();
+  @Column(name = "executed_at", insertable = false, updatable = false)
+  private LocalDateTime executedAt;
 }

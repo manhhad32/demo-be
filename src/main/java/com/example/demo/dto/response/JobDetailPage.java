@@ -11,5 +11,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobDetailPage extends PaginatedDTO {
+
   List<JobDetailResponseDto> jobDetailResponseDtos;
 }

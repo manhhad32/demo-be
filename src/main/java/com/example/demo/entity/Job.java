@@ -31,22 +31,22 @@ import org.hibernate.type.SqlTypes;
 @Builder
 public class Job extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_job_id", nullable = false)
-    private TypeJob typeJob;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "type_job_id", nullable = false)
+  private TypeJob typeJob;
 
-    @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private Map<String, Object> payload;
+  @JdbcTypeCode(SqlTypes.JSON)
+  @Column(columnDefinition = "jsonb")
+  private Map<String, Object> payload;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private JobStatus status;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, length = 20)
+  private JobStatus status;
 
-    @Column(name = "next_run_at")
-    private LocalDateTime nextRunAt;
+  @Column(name = "next_run_at")
+  private LocalDateTime nextRunAt;
 }

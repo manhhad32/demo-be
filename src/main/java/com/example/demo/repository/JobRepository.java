@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface JobRepository extends JpaRepository<Job, Integer> {
 
-    Page<Job> findByStatus(JobStatus status, Pageable pageable);
+  Page<Job> findByStatus(JobStatus status, Pageable pageable);
 
-    @Query(value = "SELECT * FROM job WHERE status = 'PENDING' AND (next_run_at IS NULL OR next_run_at <= NOW()) FOR UPDATE SKIP LOCKED LIMIT :limit", nativeQuery = true)
-    List<Job> findPendingJobsForProcessing(@Param("limit") int limit);
+  @Query(value = "SELECT * FROM job WHERE status = 'PENDING' AND (next_run_at IS NULL OR next_run_at <= NOW()) FOR UPDATE SKIP LOCKED LIMIT :limit", nativeQuery = true)
+  List<Job> findPendingJobsForProcessing(@Param("limit") int limit);
 }

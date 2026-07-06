@@ -29,13 +29,10 @@ public class CustomExceptionHandler {
 
   HttpStatus errorCodeToHttpStatus(MessageCode errorCode) {
     return switch (errorCode) {
-      case
-          MESSAGE_NOT_FOUND -> HttpStatus.NOT_FOUND;
+      case MESSAGE_NOT_FOUND -> HttpStatus.NOT_FOUND;
 
-      case
-          MESSAGE_TYPE_JOB_NOT_FOUND,
-          MESSAGE_ERROR_INPUT_ERROR -> HttpStatus.BAD_REQUEST;
-
+      case MESSAGE_TYPE_JOB_NOT_FOUND,
+           MESSAGE_ERROR_INPUT_ERROR -> HttpStatus.BAD_REQUEST;
 
       case null, default -> HttpStatus.INTERNAL_SERVER_ERROR;
     };

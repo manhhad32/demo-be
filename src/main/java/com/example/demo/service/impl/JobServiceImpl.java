@@ -2,15 +2,16 @@ package com.example.demo.service.impl;
 
 import static com.example.demo.constant.MessageCode.MESSAGE_ERROR_INPUT_ERROR;
 
-import com.example.demo.constant.MessageCode;
 import com.example.demo.constant.JobStatus;
+import com.example.demo.constant.MessageCode;
 import com.example.demo.dto.request.CreateJobRequestDto;
-import com.example.demo.dto.response.JobDetailResponseDto;
 import com.example.demo.dto.response.JobDetailPage;
+import com.example.demo.dto.response.JobDetailResponseDto;
 import com.example.demo.dto.response.JobResponseDto;
 import com.example.demo.entity.Job;
 import com.example.demo.entity.TypeJob;
 import com.example.demo.exception.CustomException;
+import com.example.demo.repository.JobExecutionLogRepository;
 import com.example.demo.repository.JobRepository;
 import com.example.demo.repository.TypeJobRepository;
 import com.example.demo.service.JobExecutionService;
@@ -25,11 +26,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
-import com.example.demo.repository.JobExecutionLogRepository;
 
 @Service
 @Slf4j
 public class JobServiceImpl implements JobService {
+
   private final JobRepository jobRepository;
   private final TypeJobRepository typeJobRepository;
   private final MessageUtil messageUtil;
@@ -38,7 +39,10 @@ public class JobServiceImpl implements JobService {
   private final JobExecutionLogRepository jobExecutionLogRepository;
 
   @Autowired
-  public JobServiceImpl(JobRepository jobRepository, TypeJobRepository typeJobRepository, MessageUtil messageUtil, JobExecutionService jobExecutionService, TransactionTemplate transactionTemplate, JobExecutionLogRepository jobExecutionLogRepository) {
+  public JobServiceImpl(JobRepository jobRepository, TypeJobRepository typeJobRepository,
+      MessageUtil messageUtil, JobExecutionService jobExecutionService,
+      TransactionTemplate transactionTemplate,
+      JobExecutionLogRepository jobExecutionLogRepository) {
     this.jobRepository = jobRepository;
     this.typeJobRepository = typeJobRepository;
     this.messageUtil = messageUtil;
@@ -50,7 +54,7 @@ public class JobServiceImpl implements JobService {
   @Transactional()
   @Override
   public JobResponseDto createJob(CreateJobRequestDto requestDto) {
-    if(requestDto == null ) {
+    if (requestDto == null) {
       throw new CustomException(MESSAGE_ERROR_INPUT_ERROR.getCode(),
           messageUtil.getMessage(MESSAGE_ERROR_INPUT_ERROR));
     }
@@ -91,7 +95,8 @@ public class JobServiceImpl implements JobService {
         JobStatus jobStatus = JobStatus.valueOf(status.toUpperCase());
         jobs = jobRepository.findByStatus(jobStatus, pageable);
       } catch (IllegalArgumentException e) {
-        throw new CustomException(MessageCode.MESSAGE_ERROR_INPUT_ERROR.getCode(), "Invalid status: " + status);
+        throw new CustomException(MessageCode.MESSAGE_ERROR_INPUT_ERROR.getCode(),
+            "Invalid status: " + status);
       }
     } else {
       jobs = jobRepository.findAll(pageable);
@@ -138,7 +143,10 @@ public class JobServiceImpl implements JobService {
       // Re-fetch to get updated status/retry count after execution.
       // We must wrap this in transactionTemplate because getJobById is called internally 
       // (self-invocation) which bypasses its @Transactional proxy.
-      JobDetailResponseDto dto = transactionTemplate.execute(status -> getJobById(job.getId()));
+      JobDetailResponseDto dto = transactionTemplate.execute(status -> {
+        Job updatedJob = jobRepository.findById(job.getId()).orElse(job);
+        return mapToJobDetailResponseDto(updatedJob);
+      });
       processedJobDetails.add(dto);
     }
     return processedJobDetails;
@@ -150,7 +158,8 @@ public class JobServiceImpl implements JobService {
         .type(job.getTypeJob() != null ? job.getTypeJob().getType() : null)
         .payload(job.getPayload())
         .status(job.getStatus() != null ? job.getStatus().name() : null)
-        .retryCount((int) jobExecutionLogRepository.countByJobIdAndStatus(job.getId(), JobStatus.FAILED))
+        .retryCount(
+            (int) jobExecutionLogRepository.countByJobIdAndStatus(job.getId(), JobStatus.FAILED))
         .createdAt(job.getCreatedAt())
         .updatedAt(job.getUpdatedAt())
         .build();
