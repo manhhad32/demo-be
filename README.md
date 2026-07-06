@@ -1,5 +1,35 @@
 # demo-be
 
+## Setup and Run Instructions
+
+### Prerequisites
+- Java 21 or higher
+- Maven 3.8+
+- PostgreSQL 15+ (or any compatible version)
+
+### Database Setup
+The application uses Liquibase for database initialization. Ensure PostgreSQL is running and update `src/main/resources/application.yml` with your local database credentials if they differ from the default.
+
+### Running the Application
+1. **Build the project:**
+   ```bash
+   mvn clean install
+   ```
+
+2. **Run the application:**
+   Run the generated JAR:
+   ```bash
+   java -jar target/demo-0.0.1-SNAPSHOT.jar
+   ```
+
+### Running Tests
+To execute the automated test suite:
+```bash
+mvn clean test
+```
+
+---
+
 ## Concurrency Strategy: Job Processing
 
 ### The Problem
