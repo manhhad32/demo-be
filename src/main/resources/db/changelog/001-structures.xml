@@ -7,6 +7,8 @@
     <sqlFile path="../scripts/ddl/001-structure-db.sql" relativeToChangelogFile="true"/>
   </changeSet>
 
-
+  <changeSet id="002" author="HaNguyen" runOnChange="true" runInTransaction="true" labels="DDL">
+    <sqlFile path="../scripts/ddl/002-upgrade-job-schema.sql" relativeToChangelogFile="true"/>
+  </changeSet>
 
 </databaseChangeLog>

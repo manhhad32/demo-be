@@ -8,3 +8,12 @@ Content-Type: application/json
     "recipient": "test@example.com"
   }
 }
+
+### Get Job Details by ID
+GET http://localhost:8080/api/jobs/1
+
+### List Jobs (with pagination and filtering)
+GET http://localhost:8080/api/jobs?status=PENDING&page=0&size=20
+
+### Process Pending Jobs
+POST http://localhost:8080/api/jobs/process
