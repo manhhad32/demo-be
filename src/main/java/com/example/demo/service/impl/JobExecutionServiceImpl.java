@@ -39,11 +39,14 @@ public class JobExecutionServiceImpl implements JobExecutionService {
         Job job = jobRepository.findById(jobId).orElseThrow();
         log.info("Executing job id: {}", jobId);
         
-        // Simulate processing (e.g. sending email)
+        // Simulated Processing Logic
+        if (job.getPayload() != null && Boolean.TRUE.equals(job.getPayload().get("fail"))) {
+            log.error("Job id {} failed due to simulated 'fail: true' in payload.", jobId);
+            throw new RuntimeException("Simulated processing failure requested via payload.");
+        }
+        
         if ("EMAIL".equals(job.getTypeJob().getType())) {
             log.info("Sending email for job {}...", jobId);
-            // Simulate random failure for demonstration if needed, 
-            // but we'll assume success normally unless real exception happens.
         }
 
         job.setStatus(JobStatus.COMPLETED);
