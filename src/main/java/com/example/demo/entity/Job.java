@@ -46,11 +46,4 @@ public class Job extends BaseEntity {
     @Column(nullable = false, length = 20)
     private JobStatus status;
 
-    @Column(name = "retry_count", nullable = false)
-    private Integer retryCount;
-
-    @Column(name = "error_message", columnDefinition = "text")
-    private String errorMessage;
-
-
 }
