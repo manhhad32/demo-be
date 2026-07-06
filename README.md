@@ -8,7 +8,7 @@
 - PostgreSQL 15+ (or any compatible version)
 
 ### Database Setup
-The application uses Flyway/Liquibase or Hibernate for database initialization. Ensure PostgreSQL is running and update `src/main/resources/application.properties` (or `application.yml`) with your local database credentials if they differ from the default.
+The application uses Liquibase for database initialization. Ensure PostgreSQL is running and update `src/main/resources/application.yml` with your local database credentials if they differ from the default.
 
 ### Running the Application
 1. **Build the project:**
@@ -17,10 +17,7 @@ The application uses Flyway/Liquibase or Hibernate for database initialization. 
    ```
 
 2. **Run the application:**
-   ```bash
-   mvn spring-boot:run
-   ```
-   Or run the generated JAR:
+   Run the generated JAR:
    ```bash
    java -jar target/demo-0.0.1-SNAPSHOT.jar
    ```
@@ -28,7 +25,7 @@ The application uses Flyway/Liquibase or Hibernate for database initialization. 
 ### Running Tests
 To execute the automated test suite:
 ```bash
-mvn test
+mvn clean test
 ```
 
 ---
