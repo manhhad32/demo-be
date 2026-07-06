@@ -1,0 +1,33 @@
+### Create a New Job
+POST http://localhost:8080/api/jobs
+Content-Type: application/json
+
+{
+  "type": "EMAIL",
+  "payload": {
+    "recipient": "test11@example.com",
+    "subject": "Hello",
+    "body": "This is a test email."
+  }
+}
+
+### Create a Job designed to FAIL (Simulated Processing Failure)
+POST http://localhost:8080/api/jobs
+Content-Type: application/json
+
+{
+  "type": "EMAIL",
+  "payload": {
+    "recipient": "fail-test@example.com",
+    "fail": true
+  }
+}
+
+### Get Job Details by ID
+GET http://localhost:8080/api/jobs/1
+
+### List Jobs (with pagination and filtering)
+GET http://localhost:8080/api/jobs?status=PENDING&page=0&size=20
+
+### Process Pending Jobs
+POST http://localhost:8080/api/jobs/process

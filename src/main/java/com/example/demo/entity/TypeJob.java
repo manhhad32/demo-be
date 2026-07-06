@@ -21,12 +21,12 @@ import lombok.Setter;
 @Builder
 public class TypeJob extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String type;
+  @Column(nullable = false, unique = true)
+  private String type;
 
 
 }

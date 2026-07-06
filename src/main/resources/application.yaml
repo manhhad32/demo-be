@@ -27,3 +27,4 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog-master.xml
     enabled: true
+
