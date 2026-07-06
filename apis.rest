@@ -1,0 +1,10 @@
+### Create a new Job
+POST http://localhost:8080/api/jobs
+Content-Type: application/json
+
+{
+  "type": "EMAIL",
+  "payload": {
+    "recipient": "test@example.com"
+  }
+}
